@@ -62,9 +62,8 @@ public class StoneRenderer : MonoBehaviour
         Vector3[] points = new Vector3[pointCount];
 
         float angle = Mathf.Acos(Mathf.Pow(height, 2) / (-2 * Mathf.Pow(radius, 2)) + 1); //law of cosines formula to find angle from radius
-        float segmentLength = angle * radius;
 
-        PerlinNoise noise = new PerlinNoise(initialAmplitude, amplitudeScalingFactor, initialFrequency, frequencyScalingFactor, numberOfOctaves, segmentLength);
+        PerlinNoise noise = new PerlinNoise(initialAmplitude, amplitudeScalingFactor, initialFrequency, frequencyScalingFactor, numberOfOctaves);
 
         for (int i = 0; i < pointCount; i++)
         {
@@ -96,7 +95,7 @@ public class StoneRenderer : MonoBehaviour
         int pointCount = resolution; //+1 to connect the shape 
         Vector3[] points = new Vector3[pointCount];
 
-        PerlinNoise noise = new PerlinNoise(initialAmplitude, amplitudeScalingFactor, initialFrequency, frequencyScalingFactor, numberOfOctaves, width);
+        PerlinNoise noise = new PerlinNoise(initialAmplitude, amplitudeScalingFactor, initialFrequency, frequencyScalingFactor, numberOfOctaves);
 
         for (int i = 0; i < pointCount; i++)
         {
