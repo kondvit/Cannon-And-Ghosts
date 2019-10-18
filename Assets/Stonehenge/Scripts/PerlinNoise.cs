@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class PerlinNoise
+﻿public class PerlinNoise
 {
 
     private PerlinOctave[] octaves;
