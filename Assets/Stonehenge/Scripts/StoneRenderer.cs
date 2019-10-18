@@ -22,28 +22,91 @@ public class StoneRenderer : MonoBehaviour
     private float height = 4; //controls the line smoothness
     [SerializeField]
     private float width = 8; //controls the line smoothness
+    [SerializeField]
+    private float lineWidth = 0.02f;
+    [SerializeField]
+    private float radius;
 
-    private float lineWidth;
-
+    //TODO: solution create 6 game objects 
     void Awake()
     {
-        PerlinNoise noise = new PerlinNoise(initialAmplitude, amplitudeScalingFactor, initialFrequency, frequencyScalingFactor, numberOfOctaves);
+        //TODO: create a second noise for the second line ???
+        if (radius < 2) radius = new Vector2(width / 2, height / 2).magnitude;
 
-        LineRenderer line = gameObject.AddComponent<LineRenderer>();
+        //the resolutions are proportions of total points rendered with respect to the size
+        int lineResolution = (int)(resolution * width / (width + height) / 2);
+        int curveResolution = (int)(resolution * height / (width + height) / 2);
 
-        line.useWorldSpace = false;
-        line.startWidth = lineWidth;
-        line.endWidth = lineWidth;
-        line.positionCount = resolution + 1;
+        GameObject topLine = DrawLine(lineResolution);
+        topLine.transform.position = new Vector3(-width / 2, height / 2);
 
-        int pointCount = resolution + 1; //+1 to connect the shape together
+        // GameObject rightSide = DrawCurvedSide(curveResolution, radius);
+
+    }
+
+    //TOD:
+    private GameObject DrawCurvedSide(int resolution, float radius)
+    {
+
+        GameObject curve = new GameObject("Curve");
+        curve.transform.SetParent(transform);
+
+        LineRenderer lineRenderer = curve.AddComponent<LineRenderer>();
+
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.startWidth = lineWidth;
+        lineRenderer.endWidth = lineWidth;
+        lineRenderer.positionCount = resolution;
+
+        int pointCount = resolution; //+1 to connect the shape
         Vector3[] points = new Vector3[pointCount];
+
+        float angle = Mathf.Acos(Mathf.Pow(height, 2) / (-2 * Mathf.Pow(radius, 2)) + 1); //law of cosines formula to find angle from radius
+        float segmentLength = angle * radius;
+
+        PerlinNoise noise = new PerlinNoise(initialAmplitude, amplitudeScalingFactor, initialFrequency, frequencyScalingFactor, numberOfOctaves, segmentLength);
 
         for (int i = 0; i < pointCount; i++)
         {
-            points[i] = new Vector3(i * width/pointCount, noise.GenerateNoise(i));
+            
+            float section = i * angle / pointCount;
+            float n = noise.GenerateNoise(section * radius);
+            float x = Mathf.Cos(section) * (radius + n);
+            float y = Mathf.Sin(section) * (radius + n);
+            points[i] = new Vector3(x, y);
         }
 
-        line.SetPositions(points);
+        lineRenderer.SetPositions(points);
+
+        return curve;
+    }
+
+    private GameObject DrawLine(int resolution)
+    {
+        GameObject line = new GameObject("Line");
+        line.transform.SetParent(transform);
+
+        LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
+
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.startWidth = lineWidth;
+        lineRenderer.endWidth = lineWidth;
+        lineRenderer.positionCount = resolution;
+
+        int pointCount = resolution; //+1 to connect the shape 
+        Vector3[] points = new Vector3[pointCount];
+
+        PerlinNoise noise = new PerlinNoise(initialAmplitude, amplitudeScalingFactor, initialFrequency, frequencyScalingFactor, numberOfOctaves, width);
+
+        for (int i = 0; i < pointCount; i++)
+        {
+            float x = i * width / pointCount;
+            float y = noise.GenerateNoise(x);
+            points[i] = new Vector3(x, y);
+        }
+
+        lineRenderer.SetPositions(points);
+
+        return line;
     }
 }

@@ -5,11 +5,13 @@ public class PerlinOctave
     private float amplitude;
     private float frequency;
     private int seed;
+    private int end;
 
-    public PerlinOctave(float amplitude, float frequency)
+    public PerlinOctave(float amplitude, float frequency, float end)
     {
         this.amplitude = amplitude;
         this.frequency = frequency;
+        this.end = (int)(frequency * end);
 
         seed = Random.Range(int.MinValue, int.MaxValue);
 
@@ -38,9 +40,28 @@ public class PerlinOctave
     {
         int floor_x = (int)x;
         float fraction = x - floor_x;
+        float a, b;
 
-        float a = rand(floor_x);
-        float b = rand(floor_x + 1);
+        if(floor_x == 0)
+        {
+            a = 0;
+            b = rand(floor_x + 1);
+        }
+        else if(floor_x == end)
+        {
+            a = rand(floor_x);
+            b = 0;
+        }
+        else if(end == 0) //can't render the octave
+        {
+            a = 0;
+            b = 0;
+        }
+        else
+        {
+            a = rand(floor_x);
+            b = rand(floor_x + 1);
+        }
 
         return CosineInterpolation(a, b, fraction);
     }
