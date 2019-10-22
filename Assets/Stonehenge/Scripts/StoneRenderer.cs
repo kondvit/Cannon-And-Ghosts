@@ -11,7 +11,7 @@ public class StoneRenderer : MonoBehaviour
     [SerializeField]
     private int numberOfOctaves = 5;
 
-
+    [SerializeField]
     private int resolution = 50; //controls the line smoothness
     private float amplitudeScalingFactor = 0.5f;
     private float frequencyScalingFactor = 2f;
@@ -26,7 +26,7 @@ public class StoneRenderer : MonoBehaviour
     private float width = 8; 
     private float radius = 2;
 
-    void Start()
+    void Awake()
     {
         DrawLine(resolution, AlignTopLine);
         DrawLine(resolution, AlignBottomLine);
@@ -48,6 +48,7 @@ public class StoneRenderer : MonoBehaviour
         lineRenderer.endWidth = lineWidth;
         lineRenderer.positionCount = resolution;
         lineRenderer.material = material;
+        lineRenderer.numCapVertices = 5;
 
         int pointCount = resolution; 
         Vector3[] points = new Vector3[pointCount];
@@ -89,6 +90,7 @@ public class StoneRenderer : MonoBehaviour
         lineRenderer.endWidth = lineWidth;
         lineRenderer.positionCount = resolution;
         lineRenderer.material = material;
+        lineRenderer.numCapVertices = 5;
 
         int pointCount = resolution; 
         Vector3[] points = new Vector3[pointCount];
