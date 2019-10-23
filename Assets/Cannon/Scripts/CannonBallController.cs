@@ -3,8 +3,9 @@
 public class CannonBallController : MonoBehaviour
 {
     public Vector3 ballVelocity;
+    public Vector3 translation;
 
-    private Vector3 gravity = new Vector3(0,-15);
+    private Vector3 gravity = new Vector3(0, -15);
 
     private float cameraBoundY = -4.0f;
 
@@ -14,7 +15,8 @@ public class CannonBallController : MonoBehaviour
 
     public Vector3[] convexHall { get; private set; }
     private int convexHallResolution = 8;
-    private float radius = 0.15f;
+    public float radius = 0.15f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -77,19 +79,17 @@ public class CannonBallController : MonoBehaviour
             ballVelocity = ballVelocity + gravity * Time.deltaTime;
         }
 
-        Vector3 translation = ballVelocity * Time.deltaTime;
+        translation = ballVelocity * Time.deltaTime;
         transform.Translate(translation);
 
         //translate convexHall
-        Matrix4x4 m = Matrix4x4.Translate(translation);
-        for (int i = 0; i < convexHall.Length; i++)
-        {
-            convexHall[i] = m.MultiplyPoint3x4(convexHall[i]);
-        }
-
+        //Matrix4x4 m = Matrix4x4.Translate(translation);
+        //for (int i = 0; i < convexHall.Length; i++)
+        //{
+        //    convexHall[i] = m.MultiplyPoint3x4(convexHall[i]);
+        //}
+        
     }
-
-
     /**************************
      * TODO:
      * We slap a collider on the objects that collide
@@ -107,6 +107,9 @@ public class CannonBallController : MonoBehaviour
      * 
      * 
      */ 
+
+
+
     
 
 }

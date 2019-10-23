@@ -29,6 +29,7 @@ public class CollisionManager : MonoBehaviour
         LineRenderer object2Renderer = gameObject2.GetComponent<LineRenderer>();
 
 
+        //TODO: need to skip rock rock and ghost ghost
         //TODO:
         //use convexHall of the ball to resolve collision between rock and ball
         if (object1Renderer) // ball X stone collision
