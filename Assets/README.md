@@ -1,4 +1,4 @@
-#Cannon And Ghosts
+### Cannon And Ghosts
 
 Implementation of:
   - Random 1D terrain generation using Perlin Noise (StoneHenge)
