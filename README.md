@@ -6,4 +6,4 @@ Implementation of:
   - Verlet Integration with constraints (Ghosts)
   - Projectile physics (Cannon)
 
-  
+  <img src="sample.gif?raw=true"/>
