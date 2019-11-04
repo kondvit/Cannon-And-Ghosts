@@ -11,7 +11,7 @@ public class PerlinOctave
         this.amplitude = amplitude;
         this.frequency = frequency;
 
-        seed = Random.Range(int.MinValue, int.MaxValue);
+        seed = Random.Range(int.MinValue, int.MaxValue); //every octave has it's unique seed
 
     }
 
@@ -24,16 +24,10 @@ public class PerlinOctave
 
     private float rand(int x)
     {
-        Random.InitState(seed + x);
+        Random.InitState(seed + x); //a particular x always returns the same value
         return Random.value;
     }
 
-    /***************************************
-     * PerlinInterpolate
-     * IN: x value that depends on octave
-     * OUT: cosine interpolated value from 0 to 1 in the ith octave at x.
-     * 
-     ***************************************/
     private float PerlinInterpolate(float x)
     {
         int floor_x = (int)x;
@@ -47,7 +41,7 @@ public class PerlinOctave
 
     public float ComputeNoise(float x)
     {
-        return amplitude * PerlinInterpolate(x * frequency); //the value from 0 to 1 then scaled with amplitude.
+        return amplitude * PerlinInterpolate(x * frequency); //the interpolated value from 0 to 1 then scaled with amplitude.
     }
 
 }

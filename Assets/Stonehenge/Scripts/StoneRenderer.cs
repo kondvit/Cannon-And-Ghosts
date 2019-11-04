@@ -12,7 +12,7 @@ public class StoneRenderer : MonoBehaviour
     private int numberOfOctaves = 5;
 
     [SerializeField]
-    private int resolution = 50; //controls the line smoothness
+    private int resolution = 50; //controls the line smoothness, number of sampled noise values
     private float amplitudeScalingFactor = 0.5f;
     private float frequencyScalingFactor = 2f;
 
@@ -28,11 +28,10 @@ public class StoneRenderer : MonoBehaviour
 
     void Awake()
     {
-        DrawLine(resolution, AlignTopLine);
-        DrawLine(resolution, AlignBottomLine);
-        DrawCurvedSide(resolution, AlignRightSide);
-        DrawCurvedSide(resolution, AlignLeftSide);
-
+        DrawLine(resolution, AlignTopLine); //top line
+        DrawLine(resolution, AlignBottomLine); //bottom line
+        DrawCurvedSide(resolution, AlignRightSide); //right side
+        DrawCurvedSide(resolution, AlignLeftSide); //left side
     }
 
     private void DrawCurvedSide(int resolution, Action<Vector3[]> Align)

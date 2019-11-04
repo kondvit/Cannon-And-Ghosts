@@ -6,7 +6,7 @@ public class CloudController : MonoBehaviour
     public static Vector3 windVelocity { get; private set; }
 
     private static float wrapDistance = 14.0f;
-    private static float windForce = 7.0f;
+    private static float windForce = 9.0f;
 
     private float directionChangeTime = 2.0f;//in seconds
     private float timer = 0;

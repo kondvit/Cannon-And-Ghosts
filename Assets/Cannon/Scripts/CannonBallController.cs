@@ -3,45 +3,37 @@
 public class CannonBallController : MonoBehaviour
 {
     public Vector3 ballVelocity;
-    public Vector3 translation;
+    public Vector3 translation; //translation made in the last frame, useful for collision resolution
 
     private Vector3 gravity = new Vector3(0, -15);
 
     private float cameraBoundY = -4.0f;
 
-    private float timeToDespawn = 2.0f; // in seconds
-    private float despawnFactor = 0.1f;
+    private float timeToDespawn = 2.0f; // time for ball to despawn after loosing velocity
+    private float despawnFactor = 0.1f; // velocity threshold for despawn
     private float despawnTimer = 0;
 
-    public Vector3[] convexHall { get; private set; }
-    private int convexHallResolution = 8;
+    public Vector3[] convexHall { get; private set; } //convex hall of the ball
+    private int convexHallResolution = 8; //how many points represent the circle of the ball
     public float radius = 0.15f;
 
-
-    // Start is called before the first frame update
     void Start()
     {
+        //initialize convex hall
         convexHall = new Vector3[convexHallResolution];
         float sector = 2 * Mathf.PI / convexHallResolution;
         for(int i = 0; i < convexHall.Length; i++)
         {
             convexHall[i] = radius * new Vector3(Mathf.Cos(i * sector), Mathf.Sin(i * sector));
         }
-        //GetComponent<LineRenderer>().positionCount = convexHallResolution;
-        //GetComponent<LineRenderer>().SetPositions(convexHall);
     }
 
-    // Update is called once per frame
     void Update()
     {
         MoveBall();
         DespawnBall();
-
-        //debug
-        //GetComponent<LineRenderer>().SetPositions(convexHall);
     }
 
-    //might have bugs
     private void DespawnBall()
     {
         float xPos = transform.position.x;
@@ -81,35 +73,5 @@ public class CannonBallController : MonoBehaviour
 
         translation = ballVelocity * Time.deltaTime;
         transform.Translate(translation);
-
-        //translate convexHall
-        //Matrix4x4 m = Matrix4x4.Translate(translation);
-        //for (int i = 0; i < convexHall.Length; i++)
-        //{
-        //    convexHall[i] = m.MultiplyPoint3x4(convexHall[i]);
-        //}
-        
     }
-    /**************************
-     * TODO:
-     * We slap a collider on the objects that collide
-     * That collider will have information about the object
-     * we go through all the world object and if they have collider we resorve the collision
-     * 
-     * balls should have circle collider
-     * balls should have dynamic resolution collide with eachother
-     * TODO: restitution coefficient on the ball
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     */ 
-
-
-
-    
-
 }

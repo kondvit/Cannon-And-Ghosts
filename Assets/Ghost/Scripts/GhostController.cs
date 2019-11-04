@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class VerletPoint
@@ -32,19 +32,17 @@ public class GhostController : MonoBehaviour
 {
 
     private LineRenderer line;
-    public VerletPoint[] points;
-    private Stick[] sticks;
-    private int numberOfExtraSticks = 16;
-    
+    public List<VerletPoint> points = new List<VerletPoint>();
+    private List<Stick> sticks = new List<Stick>();
 
-    //private Vector3 verticalImpulse = new Vector3(0, 0.01f);
     [SerializeField]
-    private Vector3 impulse = new Vector3(0.01f, 0.01f);
+    private Vector3 impulse = new Vector3(0.01f, 0.01f); //impuse given at the moment of creation
     [SerializeField]
-    private Vector3 gravity = new Vector3(0, -1);
+    private Vector3 gravity = new Vector3(0, -1f);
     [SerializeField]
-    private GameObject prefab;
+    private GameObject prefab; //used to instantiate a new ghost
 
+    //used for collision with stonehenge
     float stoneTopBound;
     float stoneLeftBound;
     float stoneRightBound;
@@ -61,22 +59,24 @@ public class GhostController : MonoBehaviour
     void Update()
     {
         UpdatePoints();
-        for(int i = 0; i < 1; i++)
+
+        for(int i = 0; i < 1; i++) //can increase cycles to reinforce the constraints
         {
             UpdateSticks(); //place in a 4 loop
         }
+
         RenderPoints();
 
         DespawnGhost();
-
     }
 
+    //despawn condition for the ghost
     private void DespawnGhost()
     {
         Vector3 position = transform.TransformPoint(points[0].current);
-        if (position.x < -16.0f || position.x > 16.0f || position.y > 9.0f)
+        if (position.x < -14.0f || position.x > 14.0f || position.y > 8.0f)
         {
-            float randomX = Random.Range(-7, -4);
+            float randomX = Random.Range(-10, -4);
             float randomY = Random.Range(-1, 1);
 
             Instantiate(prefab, new Vector3(randomX, randomY), Quaternion.identity);
@@ -92,105 +92,87 @@ public class GhostController : MonoBehaviour
         Vector3[] linePoints = new Vector3[line.positionCount];
         line.GetPositions(linePoints);
 
-        int i; //counter
-
-        points = new VerletPoint[linePoints.Length + 2]; //for the eyes
-        for (i = 0; i < linePoints.Length; i++)
+        for (int i = 0; i < linePoints.Length; i++)
         {
-            points[i] = new VerletPoint(linePoints[i] , linePoints[i]);
-            points[i].old -= impulse;
+            points.Add(new VerletPoint(linePoints[i], linePoints[i] - impulse));
         }
 
-        Vector3 rightEye = transform.TransformPoint(new Vector3(0.4f, -0.63f));
-        Vector3 leftEye = transform.TransformPoint(new Vector3(0.09f, -0.61f));
-        points[i] = new VerletPoint(rightEye, rightEye);
-        points[i].old -= impulse;
-        points[i+1] = new VerletPoint(leftEye, leftEye);
-        points[i+1].old -= impulse;
-
-        sticks = new Stick[points.Length - 1 + numberOfExtraSticks]; //3 additions // 1 less stick than points
-
-        for (i = 1; i < linePoints.Length; i++)
+        //generate the sticks between the points on the outline
+        for (int i = 1; i < linePoints.Length; i++)
         {
-            sticks[i - 1] = new Stick(points[i - 1], points[i]);
+            sticks.Add(new Stick(points[i - 1], points[i]));
         }
+        
+        //body sticks
+        sticks.Add(new Stick(points[0], points[9]));
+        sticks.Add(new Stick(points[1], points[10])); 
+        sticks.Add(new Stick(points[1], points[9]));
+        sticks.Add(new Stick(points[1], points[8]));
+        sticks.Add(new Stick(points[2], points[9]));
 
-        //Invisible sticks
-        Debug.Log(points[i].current);
-        Debug.Log(rightEye);
-        sticks[i - 1 ] = new Stick(points[i], points[1]); //right eye
-        sticks[i + 9] = new Stick(points[i], points[2]); //right eye
-        sticks[i + 11] = new Stick(points[i], points[8]); //right eye
-        sticks[i + 13] = new Stick(points[i], points[9]); //right eye
-        sticks[i + 15] = new Stick(points[i], points[0]); //right eye
-        sticks[i     ] = new Stick(points[i + 1], points[1]);// left eye
-        sticks[i + 10] = new Stick(points[i + 1], points[2]);
-        sticks[i + 12] = new Stick(points[i + 1], points[8]);
-        sticks[i + 14] = new Stick(points[i + 1], points[9]);
-        sticks[i + 16] = new Stick(points[i + 1], points[10]);
+        //ghost's skirt
+        sticks.Add(new Stick(points[2], points[4]));
+        sticks.Add(new Stick(points[4], points[6]));
+        sticks.Add(new Stick(points[6], points[8]));
 
-        sticks[i + 1] = new Stick(points[0], points[9]);
-        sticks[i + 2] = new Stick(points[1], points[10]);
-        sticks[i + 3] = new Stick(points[1], points[9]);
+        AddEyes();
+    }
 
-        //sticks[i + 2] = new Stick(points[1], points[8]);
-        sticks[i + 4] = new Stick(points[2], points[4]);
-        sticks[i + 5] = new Stick(points[4], points[6]);
-        sticks[i + 6] = new Stick(points[6], points[8]);
+    private void AddEyes()
+    {
+        Vector3 rightEye = new Vector3(0.4f, -0.63f);
+        Vector3 leftEye = new Vector3(0.09f, -0.61f);
+        points.Add(new VerletPoint(rightEye, rightEye - impulse));
+        points.Add(new VerletPoint(leftEye, leftEye - impulse));
 
-        //skirt
-        sticks[i + 7] = new Stick(points[1], points[8]);
-        sticks[i + 8] = new Stick(points[2], points[9]);
+        //fix left eye
+        sticks.Add(new Stick(points[points.Count - 1], points[1])); //left eye
+        sticks.Add(new Stick(points[points.Count - 1], points[2])); //left eye
+        sticks.Add(new Stick(points[points.Count - 1], points[8])); //left eye
+        sticks.Add(new Stick(points[points.Count - 1], points[9])); //left eye
 
+        //fix right eye
+        sticks.Add(new Stick(points[points.Count - 2], points[1])); //right eye
+        sticks.Add(new Stick(points[points.Count - 2], points[2])); //right eye
+        sticks.Add(new Stick(points[points.Count - 2], points[8])); //right eye
+        sticks.Add(new Stick(points[points.Count - 2], points[9])); //right eye
     }
 
     private void RenderPoints()
     {
-        Vector3[] linePoints = new Vector3[points.Length - 2];
-        int i;
-        for (i = 0; i < points.Length - 2; i++) //-2 for the eyes 
+        Vector3[] linePoints = new Vector3[points.Count - 2];
+
+        for (int i = 0; i < points.Count - 2; i++) //-2 for the eyes 
         {
             linePoints[i] = points[i].current;
         }
 
-        transform.GetChild(0).position = points[i].current;
-        transform.GetChild(1).position = points[i+1].current;
+        transform.GetChild(0).position = transform.TransformPoint(points[points.Count - 1].current);
+        transform.GetChild(1).position = transform.TransformPoint(points[points.Count - 2].current);
 
         line.SetPositions(linePoints);
     }
 
     private void UpdatePoints()
     {
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < points.Count; i++)
         {
             Vector3 velocity = points[i].current - points[i].old;
 
             points[i].old = points[i].current;
 
             points[i].current += velocity;
-            points[i].current += gravity * Time.deltaTime * Time.deltaTime;
+            points[i].current += gravity  * Time.deltaTime * Time.deltaTime;
 
-            //float worldYcoord = transform.TransformPoint(points[i].current).y;
-            ////Debug.Log(worldYcoord);
-            //if (worldYcoord > 0 && !movingRight)
-            //{
-            //    points[i].current += horizontalImpulse;
-            //    movingRight = true;
-            //}
-
-
-            //TODO:remove grav
-            //////////////////////////////////////
-            //Just grav
+            //collision with ground
             float bound = transform.InverseTransformPoint(new Vector3(0, -4.0f)).y;
             if (points[i].current.y < bound)
             {
                 points[i].current.y = bound;
                 points[i].old.y = points[i].current.y + velocity.y;
             }
-
-
-
+    
+            //collision with stonehenge
             if (points[i].current.y < stoneTopBound && points[i].current.x > stoneLeftBound && points[i].current.x < stoneRightBound)
             {
                 if (points[i].current.y > stoneTopBound - 0.1f)
@@ -212,7 +194,7 @@ public class GhostController : MonoBehaviour
 
     private void UpdateSticks()
     {
-        for (int i = 0; i < sticks.Length; i++)
+        for (int i = 0; i < sticks.Count; i++)
         {
             Vector3 delta = sticks[i].p1.current - sticks[i].p0.current;
             float falseLength = delta.magnitude;
