@@ -16,33 +16,32 @@ How to run: Open the project in Unity and press play.
 ### Scripts:
 
 Assets/Cannon/Scripts/***ballCollider.cs***
- - Ball collision handling
+  - Ball collision handling
 
 Assets/Cannon/Scripts/***CannonBallController.cs***
- - ball's movement
- - initializes cannon ball's convex hall
+  - ball's movement
+  - initializes cannon ball's convex hall
 
-CannonController.cs - Assets/Cannon/Scripts/CannonController.cs
-	- Barrel controls 
-	- ball velocity can be adjusted here or from editor
+Assets/Cannon/Scripts/***CannonController.cs***
+  - Barrel controls 
+  - ball velocity can be adjusted here or from editor
 
-CloudController.cs - Assets/Clouds/Scripts/CloudController.cs
-	- Cloud and Wind controls
+Assets/Clouds/Scripts/***CloudController.cs***
+  - Cloud and Wind controls
 
-GhostController.cs - Assets/Ghost/Scripts/GhostController.cs
-	- Ghost controls
-	- Collision resolution with the ground/stonehenge
+Assets/Ghost/Scripts/***GhostController.cs***
+  - Ghost controls
+  - Collision resolution with the ground/stonehenge
 
-PerlinNoise.cs - Assets/Stonehenge/Scripts/PerlinNoise.cs
-	- creates specified number of Perlin octaves (5)
-	- computes total noise value from all octaves for given x
+Assets/Stonehenge/Scripts/***PerlinNoise.cs***
+  - creates specified number of Perlin octaves (5)
+  - computes total noise value from all octaves for given x
 
-PerlinOctave.cs - Assets/Stonehenge/Scripts/PerlinOctave.cs
-	- creates a unique octave with specified amplitude and frequency
-	- returns noise value for given x
+Assets/Stonehenge/Scripts/***PerlinOctave.cs***
+  - creates a unique octave with specified amplitude and frequency
+  - returns noise value for given x
 
-StoneRenderer.cs - Assets/Stonehenge/Scripts/StoneRenderer.cs
-	- renders 4 sides
-	- applies Perlin noise to all of them
-	- aligns them with respect to the scale and position assigned from the Unity UI
-		making the stone object generic and reusable (took a while to figure out and make the scales work right)
+Assets/Stonehenge/Scripts/***StoneRenderer.cs***
+  - renders 4 sides
+  - applies Perlin noise to all of them
+  - aligns them with respect to the scale and position assigned from the Unity UI making the stone object generic and reusable
