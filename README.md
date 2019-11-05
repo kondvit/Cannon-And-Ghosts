@@ -8,10 +8,11 @@ Implementation of:
 
   <img src="sample.gif?raw=true"/>
 
-FrameWork: Unity
-Assets: All made in Gimp
+### FrameWork: Unity
 
-How to run: Open the project in Unity and press play.
+### Assets: All made in Gimp
+
+### How to run: Open the project in Unity and press play.
 
 ### Scripts:
 
