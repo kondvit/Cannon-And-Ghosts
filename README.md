@@ -8,34 +8,34 @@ Implementation of:
 
   <img src="sample.gif?raw=true"/>
 
-### FrameWork: Unity
+***FrameWork:*** Unity
 
-### Assets: All made in Gimp
+***Assets:*** All made using Gimp
 
-### How to run: Open the project in Unity and press play.
+***How to run:*** Open the project in Unity and press play.
 
 ### Scripts:
 
 Assets/Cannon/Scripts/***ballCollider.cs***
-  - Ball collision handling
+  - ball collision handling
 
 Assets/Cannon/Scripts/***CannonBallController.cs***
-  - ball's movement
-  - initializes cannon ball's convex hall
+  - ball's projectile movement
+  - initializes cannon ball's convex hall for collision detection
 
 Assets/Cannon/Scripts/***CannonController.cs***
-  - Barrel controls 
+  - cannon barrel controller 
   - ball velocity can be adjusted here or from editor
 
 Assets/Clouds/Scripts/***CloudController.cs***
-  - Cloud and Wind controls
+  - cloud and wind controls
 
 Assets/Ghost/Scripts/***GhostController.cs***
-  - Ghost controls
-  - Collision resolution with the ground/stonehenge
+  - ghost controller
+  - collision resolution with the ground/stonehenge for ghosts
 
 Assets/Stonehenge/Scripts/***PerlinNoise.cs***
-  - creates specified number of Perlin octaves (5)
+  - creates specified number of Perlin octaves (5 in this case)
   - computes total noise value from all octaves for given x
 
 Assets/Stonehenge/Scripts/***PerlinOctave.cs***
@@ -43,6 +43,6 @@ Assets/Stonehenge/Scripts/***PerlinOctave.cs***
   - returns noise value for given x
 
 Assets/Stonehenge/Scripts/***StoneRenderer.cs***
-  - renders 4 sides
+  - renders 4 sides of stonehenge
   - applies Perlin noise to all of them
   - aligns them with respect to the scale and position assigned from the Unity UI making the stone object generic and reusable
