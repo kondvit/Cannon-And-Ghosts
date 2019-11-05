@@ -15,7 +15,7 @@ How to run: Open the project in Unity and press play.
 
 ### Scripts:
 
-BallCollider.cs  Assets/Cannon/Scripts/ballCollider.cs
+Assets/Cannon/Scripts/***ballCollider.cs***
 	- Ball collision handling
 
 CannonBallController.cs - Assets/Cannon/Scripts/CannonBallController.cs
