@@ -13,9 +13,9 @@ Assets: All made in Gimp
 
 How to run: Open the project in Unity and press play.
 
-Scripts:
+### Scripts:
 
-BallCollider.cs - Assets/Cannon/Scripts/ballCollider.cs
+BallCollider.cs  Assets/Cannon/Scripts/ballCollider.cs
 	- Ball collision handling
 
 CannonBallController.cs - Assets/Cannon/Scripts/CannonBallController.cs
