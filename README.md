@@ -16,7 +16,7 @@ Implementation of:
 
 ### Scripts:
 
-**[BallCollider.cs]**(/Assets/Cannon/Scripts/BallCollider.cs)
+Assets/Cannon/Scripts/[BallCollider.cs](/Assets/Cannon/Scripts/BallCollider.cs)
   - ball collision handling
 
 [CannonBallController.cs](/Assets/Cannon/Scripts)
