@@ -16,11 +16,11 @@ How to run: Open the project in Unity and press play.
 ### Scripts:
 
 Assets/Cannon/Scripts/***ballCollider.cs***
-	- Ball collision handling
+ - Ball collision handling
 
-CannonBallController.cs - Assets/Cannon/Scripts/CannonBallController.cs
-	- ball's movement
-	- initializes cannon ball's convex hall
+Assets/Cannon/Scripts/***CannonBallController.cs***
+ - ball's movement
+ - initializes cannon ball's convex hall
 
 CannonController.cs - Assets/Cannon/Scripts/CannonController.cs
 	- Barrel controls 
