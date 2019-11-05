@@ -12,8 +12,6 @@ Implementation of:
 
 ***Assets:*** All made using Gimp
 
-***How to run:*** Open the project in Unity and press play.
-
 ### Scripts:
 
 [BallCollider.cs](/Assets/Cannon/Scripts/BallCollider.cs)
