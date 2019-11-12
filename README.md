@@ -45,4 +45,4 @@ Implementation of:
   - applies Perlin noise to all of them
   - aligns them with respect to the scale and position assigned from the Unity UI making the stone object generic and reusable
   
-This project is done in the setting of COMP521 class at McGill University. All the credit for coming up with this project goes to Professor Clark Verbrugge.
+This project is done in the setting of COMP521 class at McGill University. All the credit for coming up with this project goes to Professor [Clark Verbrugge](http://www.sable.mcgill.ca/~clump/).
